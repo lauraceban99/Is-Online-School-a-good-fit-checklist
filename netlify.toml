@@ -1,0 +1,15 @@
+# Netlify Configuration File
+
+[build]
+  # Install dependencies and build the widget
+  command = "npm install && npm run build:widget"
+
+  # Serve from the root directory (where index.html is)
+  publish = "."
+
+[[headers]]
+  # Cache the widget file for better performance
+  for = "/dist/quiz-widget.iife.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Access-Control-Allow-Origin = "*"

@@ -34,21 +34,18 @@
         }
       }
     </script>
-  </head>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
   <body class="bg-gray-50">
-    <!-- The Quiz Widget -->
-    <aia-quiz></aia-quiz>
-
-    <!-- Load the widget script -->
-    <script src="/dist/quiz-widget.iife.js" defer></script>
-
-    <!-- Debug script to check if widget loaded -->
-    <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded');
-        console.log('Custom element defined:', customElements.get('aia-quiz'));
-        console.log('Widget element:', document.querySelector('aia-quiz'));
-      });
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

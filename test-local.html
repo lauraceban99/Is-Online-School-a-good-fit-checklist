@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Test - Quiz Widget</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Poppins Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap">
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'aia-blue': '#1c307b',
+            'aia-gold': '#f7a11d',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <div style="padding: 20px; text-align: center;">
+    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+      Local Test - Quiz Widget
+    </h1>
+    <p style="margin-bottom: 20px; color: #666;">
+      If you see the quiz below, it's working correctly!
+    </p>
+  </div>
+
+  <!-- THE QUIZ WIDGET -->
+  <aia-quiz></aia-quiz>
+
+  <!-- Load the widget script -->
+  <script src="./dist/quiz-widget.iife.js"></script>
+
+  <!-- Debug info -->
+  <script>
+    window.addEventListener('load', function() {
+      console.log('Page loaded');
+      console.log('Widget element:', document.querySelector('aia-quiz'));
+      console.log('Custom element defined:', customElements.get('aia-quiz'));
+
+      // Check if there are any errors
+      setTimeout(function() {
+        const widget = document.querySelector('aia-quiz');
+        if (widget && widget.children.length === 0) {
+          console.error('Widget element exists but has no children - widget may have failed to render');
+          document.body.insertAdjacentHTML('beforeend',
+            '<div style="padding: 20px; text-align: center; color: red; font-weight: bold;">⚠️ Widget failed to load. Check console for errors.</div>');
+        } else if (widget) {
+          console.log('Widget rendered successfully with', widget.children.length, 'child element(s)');
+        } else {
+          console.error('Widget element not found');
+        }
+      }, 1000);
+    });
+
+    // Catch any errors
+    window.addEventListener('error', function(e) {
+      console.error('Error caught:', e.error || e.message);
+    });
+  </script>
+
+</body>
+</html>

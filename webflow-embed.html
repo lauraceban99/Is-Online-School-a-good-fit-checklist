@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Widget - Webflow Embed Example</title>
+
+  <!-- Tailwind CSS (required for styling) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Poppins Font (optional, for better appearance) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap">
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'aia-blue': '#1c307b',
+            'aia-gold': '#f7a11d',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align: center; padding: 20px; font-size: 24px; font-weight: bold;">
+    Quiz Widget Embed Example
+  </h1>
+
+  <!-- THE WIDGET - Just add this tag where you want the quiz to appear -->
+  <aia-quiz></aia-quiz>
+
+  <!-- Load the widget script -->
+  <script src="./dist/quiz-widget.iife.js"></script>
+
+</body>
+</html>

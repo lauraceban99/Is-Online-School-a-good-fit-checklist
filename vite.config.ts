@@ -11,24 +11,25 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
+      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
+      'process.env': '{}'
     },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       }
     },
-    // 👇 ADD THIS SECTION (everything below this comment)
     build: {
       lib: {
-        entry: 'widget.tsx',      // path to your widget entry file
-        name: 'AIAQuizWidget',    // name for the global variable
-        formats: ['iife'],        // make one single <script> file
-        fileName: 'quiz-widget'   // output = dist/quiz-widget.iife.js
+        entry: 'widget.tsx',
+        name: 'AIAQuizWidget',
+        formats: ['iife'],
+        fileName: 'quiz-widget'
       },
       rollupOptions: {
-        external: []              // keep dependencies bundled in
+        external: []
       }
     }
   };

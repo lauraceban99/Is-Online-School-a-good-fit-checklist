@@ -1,21 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App"; // uses your existing app
+import App from "./App";
 
 class AIAQuiz extends HTMLElement {
   connectedCallback() {
-    const shadow = this.attachShadow({ mode: "open" });
+    // Mount directly without shadow DOM for better Tailwind compatibility
     const mount = document.createElement("div");
-    shadow.appendChild(mount);
+    this.appendChild(mount);
 
-    // Optional: pass settings from Webflow via attributes:
-    const endpoint = this.getAttribute("data-endpoint") || "";
-    const theme = this.getAttribute("data-theme") || "light";
-
-    // If your App doesn't take props, just render <App />.
-    // If it does, add them below.
     // @ts-ignore
-    createRoot(mount).render(<App endpoint={endpoint} theme={theme} />);
+    createRoot(mount).render(<App />);
   }
 }
 
