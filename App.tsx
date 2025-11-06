@@ -92,7 +92,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-aia-blue flex flex-col items-center p-4 sm:p-6 lg:p-8">
         <main className="w-full flex-grow flex justify-center items-center py-8">
             {renderContent()}
         </main>
