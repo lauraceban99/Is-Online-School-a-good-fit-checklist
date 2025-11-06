@@ -75,11 +75,12 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
             <p className="text-center text-gray-600 mb-8">Just one last step. Enter your details below to unlock your quiz result and get more information.</p>
             
             <form ref={formRef} id='webform86859000001948007' name='WebToLeads86859000001948007' acceptCharset='UTF-8'>
-                <input type='text' style={{ display: 'none' }} name='xnQsjsdp' defaultValue='c4bb0b7e88c93d75119805c8ea455a20a6078e916d3ecf3f9c8eb032656f822c' />
+                <input type='text' style={{ display: 'none' }} name='xnQsjsdp' defaultValue='98495a116dbbde65b78ff6e945326741171ac72c80d6c0cd4f03ef6a5065a8fc' />
                 <input type='hidden' name='zc_gad' id='zc_gad' defaultValue='' />
-                <input type='text' style={{ display: 'none' }} name='xmIwtLD' defaultValue='bbcb16e23e40683922e30dbf74ee3313a2d95beeba2ab2ce20cb1b7d8bd0c43ba24c6c82c68d256389f26254f1eb' />
+                <input type='text' style={{ display: 'none' }} name='xmIwtLD' defaultValue='929a99c3a9d9073279c08ce7b7c902ac230adb4dd678f968c223cf3eefd640d54b1d9f86f3f6346ab6093f1cef472091' />
                 <input type='text' style={{ display: 'none' }} name='actionType' defaultValue='TGVhZHM=' />
                 <input type='text' style={{ display: 'none' }} name='returnURL' defaultValue='null' />
+                <input type='text' style={{ display: 'none' }} name='aG9uZXlwb3Q' defaultValue='' />
                 
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
