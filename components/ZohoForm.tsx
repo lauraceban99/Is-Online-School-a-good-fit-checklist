@@ -15,18 +15,6 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
     const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
-        // Load reCAPTCHA script
-        const recaptchaScript = document.createElement('script');
-        recaptchaScript.src = 'https://www.google.com/recaptcha/api.js';
-        recaptchaScript.async = true;
-        recaptchaScript.defer = true;
-        document.body.appendChild(recaptchaScript);
-
-        // Load jQuery script
-        const jqueryScript = document.createElement('script');
-        jqueryScript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js';
-        document.body.appendChild(jqueryScript);
-
         // Define reCAPTCHA callback
         (window as any).rccallback86859000001948007 = function() {
             const recapElem = document.getElementById('recap86859000001948007');
@@ -38,6 +26,30 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
                 recapErr.style.visibility = 'hidden';
             }
         };
+
+        // Load reCAPTCHA script
+        const recaptchaScript = document.createElement('script');
+        recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit';
+        recaptchaScript.async = true;
+        recaptchaScript.defer = true;
+
+        // Define onload callback to explicitly render reCAPTCHA
+        (window as any).onRecaptchaLoad = function() {
+            if (window.grecaptcha && document.getElementById('recap86859000001948007')) {
+                window.grecaptcha.render('recap86859000001948007', {
+                    'sitekey': '6LexBOgqAAAAAOwnoOCpXV9Y6Cd5k-T11h2gxg4s',
+                    'callback': (window as any).rccallback86859000001948007,
+                    'theme': 'light'
+                });
+            }
+        };
+
+        document.body.appendChild(recaptchaScript);
+
+        // Load jQuery script
+        const jqueryScript = document.createElement('script');
+        jqueryScript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js';
+        document.body.appendChild(jqueryScript);
 
         const intervalId = setInterval(() => {
             if (window.$ && formRef.current) {
@@ -102,6 +114,7 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
                 document.body.removeChild(recaptchaScript);
             }
             delete (window as any).rccallback86859000001948007;
+            delete (window as any).onRecaptchaLoad;
         };
     }, [onSuccess]);
 
@@ -158,14 +171,7 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
                     </div>
 
                     <div>
-                        <div
-                            className='g-recaptcha'
-                            data-sitekey='6LexBOgqAAAAAOwnoOCpXV9Y6Cd5k-T11h2gxg4s'
-                            data-theme='light'
-                            data-callback='rccallback86859000001948007'
-                            id='recap86859000001948007'
-                            data-captcha-verified='false'
-                        ></div>
+                        <div id='recap86859000001948007' style={{ marginBottom: '10px' }}></div>
                         <div id='recapErr86859000001948007' style={{ fontSize: '12px', color: 'red', visibility: 'hidden' }}>
                             Captcha validation failed. If you are not a robot then please try again.
                         </div>
