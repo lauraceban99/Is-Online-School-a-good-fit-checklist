@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 declare global {
     interface Window {
         $?: any;
+        grecaptcha?: any;
     }
 }
 
@@ -14,15 +15,34 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
     const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
+        // Load reCAPTCHA script
+        const recaptchaScript = document.createElement('script');
+        recaptchaScript.src = 'https://www.google.com/recaptcha/api.js';
+        recaptchaScript.async = true;
+        recaptchaScript.defer = true;
+        document.body.appendChild(recaptchaScript);
+
         // Load jQuery script
         const jqueryScript = document.createElement('script');
         jqueryScript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js';
         document.body.appendChild(jqueryScript);
 
+        // Define reCAPTCHA callback
+        (window as any).rccallback86859000001948007 = function() {
+            const recapElem = document.getElementById('recap86859000001948007');
+            if (recapElem) {
+                recapElem.setAttribute('captcha-verified', 'true');
+            }
+            const recapErr = document.getElementById('recapErr86859000001948007');
+            if (recapErr && recapErr.style.visibility === 'visible') {
+                recapErr.style.visibility = 'hidden';
+            }
+        };
+
         const intervalId = setInterval(() => {
             if (window.$ && formRef.current) {
                 clearInterval(intervalId);
-                
+
                 window.$('#webform86859000001948007').submit(function(e: any) {
                     e.preventDefault();
                     
@@ -37,6 +57,16 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
 
                     if (!firstName || !lastName || !email || !phone || !gradeLevel) {
                         alert('Please fill out all required fields.');
+                        return;
+                    }
+
+                    // Validate reCAPTCHA
+                    const recap = document.getElementById('recap86859000001948007');
+                    if (recap && recap.getAttribute('captcha-verified') !== 'true') {
+                        const recapErr = document.getElementById('recapErr86859000001948007');
+                        if (recapErr) {
+                            recapErr.style.visibility = 'visible';
+                        }
                         return;
                     }
 
@@ -65,7 +95,13 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
 
         return () => {
             clearInterval(intervalId);
-            document.body.removeChild(jqueryScript);
+            if (document.body.contains(jqueryScript)) {
+                document.body.removeChild(jqueryScript);
+            }
+            if (document.body.contains(recaptchaScript)) {
+                document.body.removeChild(recaptchaScript);
+            }
+            delete (window as any).rccallback86859000001948007;
         };
     }, [onSuccess]);
 
@@ -119,6 +155,20 @@ const ZohoForm: React.FC<ZohoFormProps> = ({ onSuccess }) => {
                         <select id='Lead_Status' name='Lead Status' defaultValue='Not Contacted'>
                             <option value='Not Contacted'>Not Contacted</option>
                         </select>
+                    </div>
+
+                    <div>
+                        <div
+                            className='g-recaptcha'
+                            data-sitekey='6LexBOgqAAAAAOwnoOCpXV9Y6Cd5k-T11h2gxg4s'
+                            data-theme='light'
+                            data-callback='rccallback86859000001948007'
+                            id='recap86859000001948007'
+                            data-captcha-verified='false'
+                        ></div>
+                        <div id='recapErr86859000001948007' style={{ fontSize: '12px', color: 'red', visibility: 'hidden' }}>
+                            Captcha validation failed. If you are not a robot then please try again.
+                        </div>
                     </div>
 
                     <div>
