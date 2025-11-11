@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import QuestionCard from './components/QuestionCard';
 import ResultCard from './components/ResultCard';
 import ZohoForm from './components/ZohoForm';
@@ -13,6 +13,37 @@ const App: React.FC = () => {
   const [quizFinished, setQuizFinished] = useState(false);
   const [showZohoForm, setShowZohoForm] = useState(false);
   const [answerHistory, setAnswerHistory] = useState<boolean[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Send height updates to parent window (for iframe embedding)
+  useEffect(() => {
+    const sendHeight = () => {
+      if (containerRef.current) {
+        const height = containerRef.current.scrollHeight;
+        window.parent.postMessage({ type: 'resize', height }, '*');
+      }
+    };
+
+    // Send initial height
+    sendHeight();
+
+    // Use ResizeObserver to detect height changes
+    const resizeObserver = new ResizeObserver(() => {
+      sendHeight();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Also send height on any state change
+    const timeoutId = setTimeout(sendHeight, 100);
+
+    return () => {
+      resizeObserver.disconnect();
+      clearTimeout(timeoutId);
+    };
+  }, [quizStarted, currentQuestionIndex, quizFinished, showZohoForm]);
 
   const handleAnswer = useCallback((answeredYes: boolean) => {
     if (answeredYes) {
@@ -92,7 +123,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-aia-blue flex flex-col items-center p-4 sm:p-6 lg:p-8">
+    <div ref={containerRef} className="min-h-screen bg-aia-blue flex flex-col items-center p-4 sm:p-6 lg:p-8">
         <main className="w-full flex-grow flex justify-center items-center py-8">
             {renderContent()}
         </main>
